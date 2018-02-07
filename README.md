@@ -1,4 +1,4 @@
-# XYZ Framework
+# XYZ Framework for .NET 4.6+
 Separation of Concerns and abstraction library.
 
 ## Primary Target Dev Stack
