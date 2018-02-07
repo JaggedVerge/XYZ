@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>XYZ.Data</name>
+    </assembly>
+    <members>
+        <member name="T:XYZ.Data.IDataSource">
+            <summary>
+            Interface for implementing small footprint database wrappers
+            </summary>
+        </member>
+        <member name="P:XYZ.Data.IDataSource.ConnectionString">
+            <summary>
+            Gets or Sets Connection String used for Database Server
+            </summary>
+        </member>
+        <member name="P:XYZ.Data.IDataSource.DatabasePath">
+            <summary>
+            Gets or Sets the current database to use
+            </summary>
+        </member>
+        <member name="M:XYZ.Data.IDataSource.BeginTransaction">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:XYZ.Data.IDataSource.EndTransaction">
+            <summary>
+            
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,177 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>XYZ.ComponentModel</name>
+    </assembly>
+    <members>
+        <member name="F:XYZ.ComponentModel.EditModel`1.ValidatedProperties">
+            <summary>
+            Returns array of property names to be validated
+            </summary>
+        </member>
+        <member name="P:XYZ.ComponentModel.EditModel`1.ValidateCommand">
+            <summary>
+            Gets command to validate from hooked code
+            </summary>
+        </member>
+        <member name="M:XYZ.ComponentModel.EditModel`1.GetErrorValidation(System.String)">
+            <summary>
+            Runs validation on specified property
+            </summary>
+            <param name="PropertyName">Name of property to validate</param>
+            <returns>Null, error on fail</returns>
+        </member>
+        <member name="T:XYZ.ComponentModel.ICommand">
+            <summary>
+            For use in program call-backs
+            Made header-compatible with Windows.Input.ICommand for implementation in MVVM
+            </summary>
+        </member>
+        <member name="E:XYZ.ComponentModel.ICommand.CanExecuteChanged">
+            <summary>
+            Raises when Execution Status changes
+            </summary>
+        </member>
+        <member name="M:XYZ.ComponentModel.ICommand.CanExecute(System.Object)">
+            <summary>
+            Determines if execution can commence
+            </summary>
+            <param name="Evaluator">Validation Callback</param>
+            <returns></returns>
+        </member>
+        <member name="M:XYZ.ComponentModel.ICommand.Execute(System.Object)">
+            <summary>
+            Executes callback
+            </summary>
+            <param name="CallbackParameter">Callback parameter to pass</param>
+        </member>
+        <member name="T:XYZ.ComponentModel.XYZCommand">
+            <summary>
+            Implementation of the Command Model.
+            Used to delegate call backs.
+            </summary>
+        </member>
+        <member name="E:XYZ.ComponentModel.XYZCommand.CanExecuteChanged">
+            <summary>
+            Event Handler for signalling the state change of Executability
+            </summary>
+        </member>
+        <member name="F:XYZ.ComponentModel.XYZCommand._callback">
+            <summary>
+            CallBack function from caller for execution
+            </summary>
+        </member>
+        <member name="F:XYZ.ComponentModel.XYZCommand._evaluation">
+            <summary>
+            Evaluation from caller to determine execution eligibility
+            </summary>
+        </member>
+        <member name="M:XYZ.ComponentModel.XYZCommand.#ctor(System.Action{System.Object})">
+            <summary>
+            Creates a new command that can always execute.
+            </summary>
+            <param name="Callback">The execution logic.</param>
+        </member>
+        <member name="M:XYZ.ComponentModel.XYZCommand.#ctor(System.Action{System.Object},System.Predicate{System.Object})">
+            <summary>
+            Creates a new command.
+            </summary>
+            <param name="CallbackFunction">The execution logic.</param>
+            <param name="Evaluator">The parameter to test status against</param>
+        </member>
+        <member name="M:XYZ.ComponentModel.XYZCommand.CanExecute(System.Object)">
+            <summary>
+            Indicates whether or not Execute can be performed
+            </summary>
+            <param name="Evaluation">Expression to evaluate for readiness</param>
+            <returns>True if able execution state met</returns>
+        </member>
+        <member name="M:XYZ.ComponentModel.XYZCommand.Execute(System.Object)">
+            <summary>
+            Executes Callback from Parent
+            </summary>
+            <param name="CallbackParameter">Paramters of execution logic</param>
+        </member>
+        <member name="T:XYZ.ComponentModel.INotifyPropertyChanged">
+            <summary>
+            For compatibility with systems that do not support the standard INotifyPropertyChanged or which implement alternate version of the framework.
+            </summary>
+        </member>
+        <member name="M:XYZ.ComponentModel.XYZModel.Equals(System.Object)">
+            <summary>
+            Compares an object to the current object
+            </summary>
+            <param name="Comparee">Object to test</param>
+            <returns>True if equal</returns>
+        </member>
+        <member name="M:XYZ.ComponentModel.XYZModel.GetHashCode">
+            <summary>
+            Returns the hashcode
+            </summary>
+            <returns>Hashcode of ID</returns>
+        </member>
+        <member name="M:XYZ.ComponentModel.XYZModel.Clone">
+            <summary>
+            Makes a value copy of current object
+            </summary>
+            <returns>A duplicate of the current object without reference (by value)</returns>
+        </member>
+        <member name="T:XYZ.ComponentModel.EditViewModel">
+            <summary>
+            Logic for an Editing Window pane in UI
+            </summary>
+        </member>
+        <member name="M:XYZ.ComponentModel.EditViewModel.#ctor">
+            <summary>
+            Create a new Edit Window
+            </summary>
+        </member>
+        <member name="P:XYZ.ComponentModel.EditViewModel.SaveCommand">
+            <summary>
+            Request Data Save
+            </summary>
+        </member>
+        <member name="P:XYZ.ComponentModel.EditViewModel.CancelCommand">
+            <summary>
+            Cancel Edit Request
+            </summary>
+        </member>
+        <member name="M:XYZ.ComponentModel.EditViewModel.RaiseSaveRequest">
+            <summary>
+            Event triggered when the window is closed
+            </summary>
+        </member>
+        <member name="M:XYZ.ComponentModel.EditViewModel.Save">
+            <summary>
+            Closes this window
+            </summary>
+        </member>
+        <member name="T:XYZ.ComponentModel.ModelChanged">
+            <summary>
+            Event to signal an item change
+            </summary>
+            <param name="Sender">Originating insance</param>
+            <param name="Args">Model that changed</param>
+        </member>
+        <member name="T:XYZ.ComponentModel.ViewModel">
+            <summary>
+            Logic for action trigger controls, such as buttons
+            </summary>
+        </member>
+        <member name="P:XYZ.ComponentModel.ViewModel.CloseCommand">
+            <summary>
+            Request view close, remove from UI
+            </summary>
+        </member>
+        <member name="M:XYZ.ComponentModel.ViewModel.RaiseCloseRequest">
+            <summary>
+            Event triggered when the window is closed
+            </summary>
+        </member>
+        <member name="M:XYZ.ComponentModel.ViewModel.Close">
+            <summary>
+            Closes this window
+            </summary>
+        </member>
+    </members>
+</doc>
