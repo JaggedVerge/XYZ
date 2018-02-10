@@ -100,6 +100,97 @@ namespace XYZ.ComponentModel
         #region Identity Methods
         public virtual Boolean Is(Object Comparee) => XYZModels.Is(this, (Comparee as XYZModel));
         #endregion Identity Methods
+        #region Event Handler Methods
+        protected virtual void OnCollectionChanged(Object Sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs Arghs) { }
+        #endregion Event Handler Methods
+        #region Reference Handler Methods
+        private Boolean SetReferencedModelProperty(Object Target, String ReferencedPropertyToSetName, Object Value, Boolean DoUnset = false) {
+            Boolean result = false;
+            System.Reflection.PropertyInfo propertyToSet = Target.GetType().GetProperty(ReferencedPropertyToSetName, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+            if (propertyToSet != null) {
+                if (propertyToSet.CanWrite) {
+                    if (propertyToSet.PropertyType == Value.GetType()) {
+                        Object currentValue = propertyToSet.GetValue(Target);
+                        Object newValue = Value;
+                        if (DoUnset) {
+                            if (currentValue == Value) {
+                                newValue = null;
+                            }
+                        }
+                        if (currentValue != newValue) {
+                            propertyToSet.SetValue(Target, Value, null);
+                        }
+                        result = true;
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        protected void DoChangeEvent<TModel>(System.Collections.Specialized.NotifyCollectionChangedEventArgs Arghs, String PropertyToReferenceName = null) {
+            if ((Arghs.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add) || (Arghs.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Replace)) {
+                foreach (TModel model in Arghs.NewItems) {
+                    this.SetReferencedModelProperty(model, PropertyToReferenceName, this);
+                }
+            }
+
+            if ((Arghs.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove) || (Arghs.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Replace)) {
+                foreach (TModel model in Arghs.OldItems) {
+                    this.SetReferencedModelProperty(model, PropertyToReferenceName, this, true);
+                }
+            }
+        }
+
+        protected void SetCollectionReferenceFromProperty<TModel>(ref System.Collections.ObjectModel.ObservableCollection<TModel> OriginalList,
+            System.Collections.ObjectModel.ObservableCollection<TModel> NewList, String PropertyToSetName = null, 
+            [System.Runtime.CompilerServices.CallerMemberName] String CallerMemberName = null) where TModel : XYZModel {
+
+            if (OriginalList == NewList) {
+                return;
+            }
+
+            Boolean doProcessModels = (!String.IsNullOrWhiteSpace(PropertyToSetName));
+            if (OriginalList != null) {
+                OriginalList.CollectionChanged -= this.OnCollectionChanged;
+                if (doProcessModels) {
+                    foreach (TModel model in OriginalList) {
+                        this.SetReferencedModelProperty(model, PropertyToSetName, this, true);
+                    }
+                }
+            }
+            if (NewList != null) {
+                NewList.CollectionChanged += this.OnCollectionChanged;
+                if (doProcessModels) {
+                    foreach (TModel model in NewList) {
+                        this.SetReferencedModelProperty(model, PropertyToSetName, this);
+                    }
+                }
+            }
+            this.SetProperty(ref OriginalList, NewList, CallerMemberName: CallerMemberName);
+        }
+
+        protected void BackSetTargetListFromProperty<TReferenceModel, TListModel>(ref TReferenceModel TargetProperty, 
+                                                                TReferenceModel Value, 
+                                                                System.Collections.Generic.IList<TListModel> TargetPropertyList, 
+                                                                System.Collections.Generic.IList<TListModel> ValueList, 
+                                                                [System.Runtime.CompilerServices.CallerMemberName] String CallerMemberName = null) 
+            where TReferenceModel : XYZModel, new() 
+            where TListModel : XYZModel, new(){
+
+            if (TargetProperty != Value) {
+                TListModel self = (this as TListModel);
+                TReferenceModel oldValue = TargetProperty;
+                this.SetProperty(ref TargetProperty, Value, CallerMemberName: CallerMemberName);
+                if (oldValue != null) {
+                    TargetPropertyList?.Remove(self);
+                }
+                if (!(ValueList?.Contains(self)).GetValueOrDefault(true)) {
+                    ValueList.Add(self);
+                }
+            }
+        }
+        #endregion Reference Handler Methods
         #endregion Methods
     }
 }
