@@ -21,7 +21,7 @@
  *  This library is dual licensed under the BSD license for Free and Open Source projects. Any utilizing works that in whole
  * or part utilize this work in Source or Binary form and apply charges to any aspect of the utilizing works (such as 
  * commercial distribution, service fees or distribution fees), must negotiate with the copyright owner a fair and amicable
- * license. This is inclusive of pure binary linking, inclusion or other common FOSS accomodations and work arounds.
+ * license fee. This is inclusive of pure binary linking, inclusion or other common FOSS accomodations and work arounds.
  * 
  * The following license applies to any individual, organization or company who is creating software for said entity and not
  * applying any sort of charge to it's distribution to or consumption by end users. This means any commercial enterprise or academic 
@@ -176,7 +176,7 @@ namespace XYZ.ComponentModel
                                                                 System.Collections.Generic.IList<TListModel> ValueList, 
                                                                 [System.Runtime.CompilerServices.CallerMemberName] String CallerMemberName = null) 
             where TReferenceModel : XYZModel, new() 
-            where TListModel : XYZModel, new(){
+            where TListModel : XYZModel{
 
             if (TargetProperty != Value) {
                 TListModel self = (this as TListModel);
